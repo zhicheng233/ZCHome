@@ -1,0 +1,299 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="支持志成 · ZCHome"
+  description="通过微信、支付宝或 USDT 支持志成的开源创作。"
+  path="/donate/"
+>
+  <main class="donate-page">
+    <div class="donate-grid" aria-hidden="true"></div>
+    <header class="donate-nav">
+      <a href="/#contact"><i data-lucide="arrow-left" aria-hidden="true"></i><span>返回 ZCHome</span></a>
+      <span>SUPPORT.DAT</span>
+    </header>
+
+    <section class="donate-panel" aria-labelledby="donate-title">
+      <div class="donate-copy">
+        <p class="donate-eyebrow">THANK YOU / 谢谢</p>
+        <h1 id="donate-title">给创作补充一点能量</h1>
+        <p>你的支持会用于服务器、开发工具和继续折腾新项目。请在确认收款方信息后再完成付款。</p>
+        <div class="donate-note">
+          <i data-lucide="shield-check" aria-hidden="true"></i>
+          <span>本页面不会收集或上传任何付款信息。</span>
+        </div>
+      </div>
+
+      <div class="payment-grid">
+        <article>
+          <header><span class="payment-wechat"><i data-lucide="message-circle" aria-hidden="true"></i></span><div><strong>微信支付</strong><small>WECHAT PAY</small></div></header>
+          <img src="/donate/wechat.png" alt="微信收款二维码" width="500" height="500" loading="eager" />
+        </article>
+        <article>
+          <header><span class="payment-alipay"><i data-lucide="scan-line" aria-hidden="true"></i></span><div><strong>支付宝</strong><small>ALIPAY</small></div></header>
+          <img src="/donate/alipay.jpg" alt="支付宝收款二维码" width="500" height="500" loading="eager" />
+        </article>
+      </div>
+
+      <div class="crypto-row">
+        <div><span>USDT</span><strong>TRC20</strong></div>
+        <code id="usdt-address">TFQr9h8qDcku3gdj4Axq96bCCgHA87Up9r</code>
+        <button type="button" data-copy-address aria-label="复制 USDT 地址"><i data-lucide="copy" aria-hidden="true"></i><span>复制</span></button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    import { ArrowLeft, Copy, MessageCircle, ScanLine, ShieldCheck, createIcons } from "lucide";
+    createIcons({ icons: { ArrowLeft, Copy, MessageCircle, ScanLine, ShieldCheck } });
+    document.querySelector<HTMLButtonElement>("[data-copy-address]")?.addEventListener("click", async (event) => {
+      const button = event.currentTarget as HTMLButtonElement;
+      const label = button.querySelector("span");
+      try {
+        await navigator.clipboard.writeText("TFQr9h8qDcku3gdj4Axq96bCCgHA87Up9r");
+        if (label) label.textContent = "已复制";
+        setTimeout(() => { if (label) label.textContent = "复制"; }, 1500);
+      } catch {
+        document.querySelector<HTMLElement>("#usdt-address")?.focus();
+      }
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  :global(body) {
+    overflow: auto;
+  }
+
+  .donate-page {
+    position: relative;
+    min-height: 100svh;
+    overflow: hidden;
+    padding: 30px clamp(18px, 5vw, 72px) 64px;
+    background: var(--desktop);
+  }
+
+  .donate-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--desktop-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--desktop-grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .donate-nav {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto 28px;
+    font-family: var(--font-pixel);
+    font-size: 8px;
+  }
+
+  .donate-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 42px;
+    padding: 8px 12px;
+    border: 2px solid var(--line);
+    background: var(--surface);
+    box-shadow: 4px 4px 0 var(--line);
+  }
+
+  .donate-nav a:hover {
+    color: var(--orange-strong);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--line);
+  }
+
+  .donate-panel {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: auto;
+    padding: clamp(24px, 5vw, 54px);
+    border: 2px solid var(--line);
+    background: var(--surface);
+    box-shadow: 9px 9px 0 var(--orange), 22px 28px 60px var(--shadow-deep);
+  }
+
+  .donate-copy {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(240px, .8fr);
+    gap: 14px 48px;
+    align-items: end;
+    margin-bottom: 32px;
+    padding-bottom: 26px;
+    border-bottom: 2px solid var(--line);
+  }
+
+  .donate-eyebrow {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--orange-strong);
+    font-family: var(--font-pixel);
+    font-size: 9px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(36px, 5vw, 66px);
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .donate-copy > p:not(.donate-eyebrow) {
+    margin: 0;
+    color: var(--muted);
+    font-size: 17px;
+  }
+
+  .donate-note {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px;
+    border-left: 4px solid var(--mint);
+    background: var(--surface-2);
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .payment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .payment-grid article {
+    padding: 18px;
+    border: 2px solid var(--line);
+    background: var(--surface-2);
+    box-shadow: 4px 4px 0 color-mix(in srgb, var(--line) 18%, transparent);
+  }
+
+  .payment-grid header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .payment-grid header > span {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--line);
+    box-shadow: 3px 3px 0 var(--line);
+  }
+
+  .payment-wechat { background: #24b45a; color: white; }
+  .payment-alipay { background: #1677ff; color: white; }
+
+  .payment-grid strong,
+  .payment-grid small {
+    display: block;
+  }
+
+  .payment-grid strong {
+    font-size: 18px;
+  }
+
+  .payment-grid small {
+    color: var(--muted);
+    font-family: var(--font-pixel);
+    font-size: 7px;
+  }
+
+  .payment-grid img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+    background: white;
+    border: 1px solid var(--line);
+    image-rendering: auto;
+  }
+
+  .crypto-row {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+    padding: 16px;
+    border: 2px solid var(--line);
+    background: color-mix(in srgb, var(--orange) 14%, var(--surface));
+  }
+
+  .crypto-row > div span,
+  .crypto-row > div strong {
+    display: block;
+  }
+
+  .crypto-row > div span {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+  }
+
+  .crypto-row > div strong {
+    color: var(--orange-strong);
+    font-size: 12px;
+  }
+
+  .crypto-row code {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+  }
+
+  .crypto-row button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 40px;
+    padding: 7px 11px;
+    border: 2px solid var(--line);
+    background: var(--surface);
+    box-shadow: 3px 3px 0 var(--line);
+    cursor: pointer;
+  }
+
+  @media (max-width: 700px) {
+    .donate-page {
+      padding: 18px 12px 40px;
+    }
+
+    .donate-panel {
+      padding: 22px 16px;
+      box-shadow: 6px 6px 0 var(--orange);
+    }
+
+    .donate-copy,
+    .payment-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .donate-note {
+      grid-column: 1;
+    }
+
+    .crypto-row {
+      grid-template-columns: 1fr auto;
+    }
+
+    .crypto-row code {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+</style>

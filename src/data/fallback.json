@@ -1,0 +1,87 @@
+{
+  "profile": {
+    "login": "zhicheng233",
+    "name": "志成🍥",
+    "bio": "Student | DesktopSoftware | Minecraft MOD | Developer | Transfemale 🏳‍⚧ | Born in 2006 | 🔐Network Security",
+    "company": "ATCG NetWork",
+    "location": "ZhuHai China",
+    "url": "https://github.com/zhicheng233",
+    "followers": 60
+  },
+  "repositories": [
+    {
+      "name": "PN532-Aime-Reader",
+      "nameWithOwner": "zhicheng233/PN532-Aime-Reader",
+      "owner": "zhicheng233",
+      "url": "https://github.com/zhicheng233/PN532-Aime-Reader",
+      "description": "基于PN532+CH340的超低成本SEGA系Aime读卡器",
+      "language": "C#",
+      "languageColor": "#178600",
+      "stars": 16,
+      "forks": 2
+    },
+    {
+      "name": "WhereMyWinCursor",
+      "nameWithOwner": "zhicheng233/WhereMyWinCursor",
+      "owner": "zhicheng233",
+      "url": "https://github.com/zhicheng233/WhereMyWinCursor",
+      "description": "A utility to help you find your Windows cursor like macOS.",
+      "language": "C#",
+      "languageColor": "#178600",
+      "stars": 4,
+      "forks": 0
+    },
+    {
+      "name": "NfcAimeReader",
+      "nameWithOwner": "ohdj/NfcAimeReader",
+      "owner": "ohdj",
+      "url": "https://github.com/ohdj/NfcAimeReader",
+      "description": "一个通过安卓手机 NFC 读取 Aime 卡片为 SEGA / KONAMI 系游戏刷卡的项目",
+      "language": "Kotlin",
+      "languageColor": "#A97BFF",
+      "stars": 99,
+      "forks": 7
+    },
+    {
+      "name": "chaoxing",
+      "nameWithOwner": "Samueli924/chaoxing",
+      "owner": "Samueli924",
+      "url": "https://github.com/Samueli924/chaoxing",
+      "description": "超星学习通/超星尔雅/泛雅超星全自动无人值守完成任务点",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "stars": 3200,
+      "forks": 430
+    },
+    {
+      "name": "ZCST-NetWork-Keeper",
+      "nameWithOwner": "zhicheng233/ZCST-NetWork-Keeper",
+      "owner": "zhicheng233",
+      "url": "https://github.com/zhicheng233/ZCST-NetWork-Keeper",
+      "description": "适用于RouterOS软路由的多播珠科校园宽带保活器，支持 Telegram Bot 推送",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "stars": 3,
+      "forks": 0
+    },
+    {
+      "name": "GetEWTAnswers",
+      "nameWithOwner": "zhicheng233/GetEWTAnswers",
+      "owner": "zhicheng233",
+      "url": "https://github.com/zhicheng233/GetEWTAnswers",
+      "description": "EWT360 试题答案获取",
+      "language": "JavaScript",
+      "languageColor": "#f1e05a",
+      "stars": 43,
+      "forks": 1
+    }
+  ],
+  "rss": [
+    { "title": "为AquaDX等服务端使用Cloudflare CDN的思路", "url": "https://blog.zhicheng233.top/post/%E4%B8%BAAquaDX%E7%AD%89%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BD%BF%E7%94%A8Cloudflare%20CDN%E7%9A%84%E6%80%9D%E8%B7%AF", "publishedAt": "2026-05-26T00:00:00.000Z" },
+    { "title": "FixedTime比较在开发中的重要性", "url": "https://blog.zhicheng233.top/post/FixedTime%E6%AF%94%E8%BE%83%E5%9C%A8%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7", "publishedAt": "2026-05-01T00:00:00.000Z" },
+    { "title": "Live2D Cubism Editor 5.3.00 破解版", "url": "https://blog.zhicheng233.top/post/Live2D-Cubism-Editor-5.3.00-Crack", "publishedAt": "2026-03-20T00:00:00.000Z" },
+    { "title": "解决Office无法运行0x426-0x0 安装报0xc000005", "url": "https://blog.zhicheng233.top/post/%E8%A7%A3%E5%86%B3Office%E6%97%A0%E6%B3%95%E8%BF%90%E8%A1%8C0x426-0x0%20%E5%AE%89%E8%A3%85%E6%8A%A50xc000005", "publishedAt": "2024-12-01T00:00:00.000Z" },
+    { "title": "24年通过Telnet获取电信天翼网关超管密码-HS8145C5", "url": "https://blog.zhicheng233.top/post/24%E5%B9%B4%E9%80%9A%E8%BF%87Telnet%E8%8E%B7%E5%8F%96%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E7%BD%91%E5%85%B3%E8%B6%85%E7%AE%A1%E5%AF%86%E7%A0%81-HS8145C5", "publishedAt": "2024-02-06T12:40:00.000Z" },
+    { "title": "浅谈V2rayN & Cloudflare Zero Trust", "url": "https://blog.zhicheng233.top/post/%E6%B5%85%E8%B0%88V2ray%20&%20Cloudflare%20Zero%20Trust", "publishedAt": "2023-12-09T00:00:00.000Z" }
+  ]
+}

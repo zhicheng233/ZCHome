@@ -1,0 +1,227 @@
+---
+import { Picture } from "astro:assets";
+import avatar from "../assets/avatar.png";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { loadGitHubData } from "../lib/github";
+import { translations } from "../lib/i18n";
+import { loadRssItems, RSS_URL } from "../lib/rss";
+import desktopScript from "../scripts/desktop.ts?url";
+
+const [github, rssItems] = await Promise.all([loadGitHubData(), loadRssItems()]);
+const initialStrings = translations["zh-CN"];
+const formatCount = (value: number) => new Intl.NumberFormat("zh-CN", { notation: "compact" }).format(value);
+const formatDate = (value: string) => value ? new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "short", day: "numeric" }).format(new Date(value)) : "";
+const windowControls = ["about", "projects", "blog", "contact"] as const;
+const serialize = (value: unknown) => JSON.stringify(value).replaceAll("<", "\\u003c");
+---
+
+<BaseLayout
+  title="志成 ZCROM · Personal Desktop"
+  description="志成的个人主页：桌面软件、Minecraft Mod、网络安全、开源项目与技术博客。"
+>
+  <main class="desktop-shell" id="desktop-shell">
+    <div class="pixel-grid" aria-hidden="true"></div>
+    <div class="ambient-light" aria-hidden="true"></div>
+
+    <header class="system-bar">
+      <a class="brand" href="#about" aria-label="ZCHome">
+        <span class="brand-mark" aria-hidden="true">ZC</span>
+        <span class="brand-copy">
+          <strong>ZCHOME</strong>
+          <span data-i18n="site.tagline">{initialStrings["site.tagline"]}</span>
+        </span>
+      </a>
+
+      <div class="system-actions">
+        <span class="online-status"><span aria-hidden="true"></span><span data-i18n="status.available">SYSTEM ONLINE</span></span>
+        <button class="icon-button" type="button" data-theme-toggle data-tooltip={initialStrings["theme.system"]} aria-label={initialStrings["theme.system"]}>
+          <i data-lucide="monitor-cog" aria-hidden="true"></i>
+        </button>
+        <button class="language-button" type="button" data-language-toggle data-tooltip={initialStrings["language.switch"]} aria-label={initialStrings["language.switch"]}>
+          <i data-lucide="languages" aria-hidden="true"></i><span data-language-label>EN</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="workspace" id="workspace" aria-label="ZCHome desktop">
+      <div class="desktop-note" aria-hidden="true">
+        <span>PERSONAL OS / 2026</span>
+        <strong data-i18n="desktop.hint">{initialStrings["desktop.hint"]}</strong>
+      </div>
+
+      <section class="desktop-window about-window is-active" data-window="about" data-open="true" aria-labelledby="title-about">
+        <header class="window-bar" data-drag-handle>
+          <div class="window-title">
+            <i data-lucide="user-round" aria-hidden="true"></i>
+            <span id="title-about" data-i18n="window.about">{initialStrings["window.about"]}</span>
+          </div>
+          <div class="window-actions">
+            <button type="button" data-window-action="minimize" data-i18n-aria="window.minimize" aria-label={initialStrings["window.minimize"]}><i data-lucide="minus" aria-hidden="true"></i></button>
+            <button type="button" data-window-action="close" data-i18n-aria="window.close" aria-label={initialStrings["window.close"]}><i data-lucide="x" aria-hidden="true"></i></button>
+          </div>
+        </header>
+        <div class="window-body about-content">
+          <div class="portrait-stage">
+            <div class="portrait-backplate" aria-hidden="true"></div>
+            <Picture
+              src={avatar}
+              alt="志成 ZCROM 的人物头像"
+              widths={[480, 720, 960]}
+              sizes="(max-width: 760px) 82vw, 36vw"
+              formats={["avif", "webp"]}
+              fallbackFormat="webp"
+              loading="eager"
+              fetchpriority="high"
+              class="portrait"
+            />
+            <div class="portrait-badge"><span aria-hidden="true"></span> ZHUHAI / CN</div>
+          </div>
+
+          <div class="about-copy">
+            <p class="pixel-eyebrow" data-i18n="about.eyebrow">HELLO, WORLD!</p>
+            <h1 data-i18n="about.title">{initialStrings["about.title"]}</h1>
+            <p class="about-lead" data-i18n="about.lead">{initialStrings["about.lead"]}</p>
+            <p class="about-body" data-i18n="about.body">{initialStrings["about.body"]}</p>
+
+            <ul class="identity-tags" aria-label="Identity">
+              <li>2006</li><li>INFP-T</li><li>TRANSFEMALE</li><li>LGBT FRIENDLY</li><li>MENTAL DISORDER</li><li>NETWORK SECURITY</li>
+            </ul>
+
+            <dl class="profile-facts">
+              <div><dt><i data-lucide="map-pin" aria-hidden="true"></i></dt><dd data-i18n="about.location">{initialStrings["about.location"]}</dd></div>
+              <div><dt><i data-lucide="building-2" aria-hidden="true"></i></dt><dd>{github.profile.company || "ATCG NetWork"}</dd></div>
+              <div><dt><i data-lucide="users" aria-hidden="true"></i></dt><dd><strong>{github.profile.followers}</strong> <span data-i18n="about.followers">{initialStrings["about.followers"]}</span></dd></div>
+            </dl>
+
+            <blockquote>
+              <span data-i18n="about.mottoLabel">{initialStrings["about.mottoLabel"]}</span>
+              <p data-i18n="about.motto">{initialStrings["about.motto"]}</p>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="desktop-window projects-window" data-window="projects" data-open="false" hidden aria-labelledby="title-projects">
+        <header class="window-bar" data-drag-handle>
+          <div class="window-title"><i data-lucide="blocks" aria-hidden="true"></i><span id="title-projects" data-i18n="window.projects">{initialStrings["window.projects"]}</span></div>
+          <div class="window-actions">
+            <button type="button" data-window-action="minimize" data-i18n-aria="window.minimize" aria-label={initialStrings["window.minimize"]}><i data-lucide="minus" aria-hidden="true"></i></button>
+            <button type="button" data-window-action="close" data-i18n-aria="window.close" aria-label={initialStrings["window.close"]}><i data-lucide="x" aria-hidden="true"></i></button>
+          </div>
+        </header>
+        <div class="window-body collection-body">
+          <div class="section-heading">
+            <div><p class="pixel-eyebrow">GITHUB / PINNED</p><h2 data-i18n="dock.projects">{initialStrings["dock.projects"]}</h2></div>
+            <p data-i18n="projects.subtitle">{initialStrings["projects.subtitle"]}</p>
+          </div>
+          <div class="project-grid">
+            {github.repositories.map((repo, index) => (
+              <article class="project-card" style={`--index:${index}`}>
+                <div class="project-topline">
+                  <span class="project-number">0{index + 1}</span>
+                  {repo.owner !== "zhicheng233" && <span class="external-label" data-i18n="projects.external">{initialStrings["projects.external"]}</span>}
+                </div>
+                <h3>{repo.name}</h3>
+                <p class="repo-owner">{repo.owner}/</p>
+                <p class="project-description">{repo.description || "Open-source project"}</p>
+                <div class="project-meta">
+                  {repo.language && <span><i class="language-dot" style={`--language:${repo.languageColor || "#f47621"}`}></i>{repo.language}</span>}
+                  <span title={initialStrings["projects.stars"]}><i data-lucide="star" aria-hidden="true"></i>{formatCount(repo.stars)}</span>
+                  <span title={initialStrings["projects.forks"]}><i data-lucide="git-fork" aria-hidden="true"></i>{formatCount(repo.forks)}</span>
+                </div>
+                <a class="card-link" href={repo.url} target="_blank" rel="noreferrer" aria-label={`${initialStrings["projects.open"]}: ${repo.name}`}>
+                  <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+                </a>
+              </article>
+            ))}
+          </div>
+          <footer class="data-source">SOURCE: {github.source.toUpperCase()} · BUILD {new Date().toISOString().slice(0, 10)}</footer>
+        </div>
+      </section>
+
+      <section class="desktop-window blog-window" data-window="blog" data-open="false" hidden aria-labelledby="title-blog">
+        <header class="window-bar" data-drag-handle>
+          <div class="window-title"><i data-lucide="rss" aria-hidden="true"></i><span id="title-blog" data-i18n="window.blog">{initialStrings["window.blog"]}</span></div>
+          <div class="window-actions">
+            <button type="button" data-window-action="minimize" data-i18n-aria="window.minimize" aria-label={initialStrings["window.minimize"]}><i data-lucide="minus" aria-hidden="true"></i></button>
+            <button type="button" data-window-action="close" data-i18n-aria="window.close" aria-label={initialStrings["window.close"]}><i data-lucide="x" aria-hidden="true"></i></button>
+          </div>
+        </header>
+        <div class="window-body collection-body">
+          <div class="section-heading blog-heading">
+            <div><p class="pixel-eyebrow">RSS / LATEST</p><h2 data-i18n="dock.blog">{initialStrings["dock.blog"]}</h2></div>
+            <p data-i18n="blog.subtitle">{initialStrings["blog.subtitle"]}</p>
+          </div>
+          <div class="feed-status" data-feed-status="loading" role="status">
+            <span class="feed-pulse" aria-hidden="true"></span>
+            <span data-feed-message data-i18n="blog.loading">{initialStrings["blog.loading"]}</span>
+            <button type="button" data-feed-retry hidden><i data-lucide="refresh-cw" aria-hidden="true"></i><span data-i18n="blog.retry">{initialStrings["blog.retry"]}</span></button>
+          </div>
+          <ol class="post-list" data-post-list>
+            {rssItems.map((post, index) => (
+              <li>
+                <span class="post-index">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <time datetime={post.publishedAt} data-published-at={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+                  <h3>{post.title}</h3>
+                </div>
+                <a href={post.url} target="_blank" rel="noreferrer" aria-label={`${initialStrings["blog.read"]}: ${post.title}`}><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+              </li>
+            ))}
+          </ol>
+          <a class="primary-command" href="https://blog.zhicheng233.top" target="_blank" rel="noreferrer"><i data-lucide="book-open-text" aria-hidden="true"></i><span data-i18n="blog.all">{initialStrings["blog.all"]}</span></a>
+        </div>
+      </section>
+
+      <section class="desktop-window contact-window" data-window="contact" data-open="false" hidden aria-labelledby="title-contact">
+        <header class="window-bar" data-drag-handle>
+          <div class="window-title"><i data-lucide="terminal" aria-hidden="true"></i><span id="title-contact" data-i18n="window.contact">{initialStrings["window.contact"]}</span></div>
+          <div class="window-actions">
+            <button type="button" data-window-action="minimize" data-i18n-aria="window.minimize" aria-label={initialStrings["window.minimize"]}><i data-lucide="minus" aria-hidden="true"></i></button>
+            <button type="button" data-window-action="close" data-i18n-aria="window.close" aria-label={initialStrings["window.close"]}><i data-lucide="x" aria-hidden="true"></i></button>
+          </div>
+        </header>
+        <div class="window-body contact-body">
+          <div class="contact-intro">
+            <p class="pixel-eyebrow">CONNECT / OPEN CHANNEL</p>
+            <h2 data-i18n="contact.title">{initialStrings["contact.title"]}</h2>
+            <p data-i18n="contact.body">{initialStrings["contact.body"]}</p>
+            <button class="copy-email" type="button" data-copy-email="mczhicheng@outlook.com"><i data-lucide="copy" aria-hidden="true"></i><span data-i18n="contact.copy">{initialStrings["contact.copy"]}</span></button>
+          </div>
+          <div class="social-grid">
+            <a href="mailto:mczhicheng@outlook.com"><i data-lucide="mail" aria-hidden="true"></i><span>Email<small>mczhicheng@outlook.com</small></span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a href="https://github.com/zhicheng233" target="_blank" rel="noreferrer"><i data-lucide="code-xml" aria-hidden="true"></i><span>GitHub<small>@zhicheng233</small></span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a href="https://blog.zhicheng233.top" target="_blank" rel="noreferrer"><i data-lucide="rss" aria-hidden="true"></i><span>Blog<small>blog.zhicheng233.top</small></span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a href="https://x.com/zhi_cheng233" target="_blank" rel="noreferrer"><i data-lucide="at-sign" aria-hidden="true"></i><span>X / Twitter<small>@zhi_cheng233</small></span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a href="https://space.bilibili.com/350354944" target="_blank" rel="noreferrer"><i data-lucide="video" aria-hidden="true"></i><span>Bilibili<small>UID 350354944</small></span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a href="https://t.me/zhi_cheng233" target="_blank" rel="noreferrer"><i data-lucide="send" aria-hidden="true"></i><span>Telegram<small>@zhi_cheng233</small></span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a href="https://wpa.qq.com/msgrd?v=3&uin=3665203425&site=qq&menu=yes" target="_blank" rel="noreferrer"><i data-lucide="message-circle" aria-hidden="true"></i><span>QQ<small>3665203425</small></span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a class="support-link" href="/donate/"><i data-lucide="heart-handshake" aria-hidden="true"></i><span data-i18n="contact.support">{initialStrings["contact.support"]}</span><i data-lucide="arrow-right" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <nav class="app-dock" aria-label="Applications">
+      <div class="dock-apps">
+        {windowControls.map((id) => (
+          <button type="button" data-open-window={id} class={id === "about" ? "is-running is-current" : ""} aria-controls={`title-${id}`}>
+            <span class={`app-icon app-${id}`}><i data-lucide={id === "about" ? "user-round" : id === "projects" ? "blocks" : id === "blog" ? "rss" : "terminal"} aria-hidden="true"></i></span>
+            <span data-i18n={`dock.${id}`}>{initialStrings[`dock.${id}`]}</span>
+          </button>
+        ))}
+      </div>
+      <div class="dock-separator" aria-hidden="true"></div>
+      <a class="dock-support" href="/donate/" data-tooltip={initialStrings["contact.support"]} aria-label={initialStrings["contact.support"]}><i data-lucide="heart" aria-hidden="true"></i></a>
+    </nav>
+
+    <footer class="site-footer">
+      <a href="https://icp.gov.moe/?keyword=20241208" target="_blank" rel="noreferrer" data-i18n="footer.icp">{initialStrings["footer.icp"]}</a>
+      <span>© {new Date().getFullYear()} <span data-i18n="footer.rights">{initialStrings["footer.rights"]}</span></span>
+    </footer>
+  </main>
+
+  <script is:inline id="zchome-translations" type="application/json" set:html={serialize(translations)}></script>
+  <script is:inline id="zchome-rss" type="application/json" set:html={serialize({ url: RSS_URL, items: rssItems })}></script>
+  <script is:inline type="module" src={desktopScript}></script>
+</BaseLayout>

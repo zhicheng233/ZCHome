@@ -1,0 +1,53 @@
+---
+import "@fontsource/press-start-2p/400.css";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+}
+
+const { title, description, path = "/" } = Astro.props;
+const canonical = new URL(path, Astro.site);
+---
+
+<!doctype html>
+<html lang="zh-CN" data-theme="system">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="author" content="志成 / ZCROM" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f47621" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161513" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL("/favicon.png", Astro.site)} />
+    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="alternate" type="application/rss+xml" title="志成的博客 RSS" href="https://blog.zhicheng233.top/rss2.xml" />
+    <title>{title}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const theme = localStorage.getItem("zchome.theme");
+          const locale = localStorage.getItem("zchome.locale");
+          if (theme === "light" || theme === "dark" || theme === "system") {
+            document.documentElement.dataset.theme = theme;
+          }
+          if (locale === "zh-CN" || locale === "en") {
+            document.documentElement.lang = locale;
+          }
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

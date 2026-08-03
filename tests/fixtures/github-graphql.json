@@ -1,0 +1,27 @@
+{
+  "data": {
+    "user": {
+      "login": "zhicheng233",
+      "name": "志成",
+      "bio": "Developer",
+      "company": "ATCG NetWork",
+      "location": "ZhuHai China",
+      "url": "https://github.com/zhicheng233",
+      "followers": { "totalCount": 60 },
+      "pinnedItems": {
+        "nodes": [
+          {
+            "name": "shared-repo",
+            "nameWithOwner": "someone/shared-repo",
+            "url": "https://github.com/someone/shared-repo",
+            "description": "Collaboration",
+            "stargazerCount": 42,
+            "forkCount": 3,
+            "owner": { "login": "someone" },
+            "primaryLanguage": { "name": "TypeScript", "color": "#3178c6" }
+          }
+        ]
+      }
+    }
+  }
+}

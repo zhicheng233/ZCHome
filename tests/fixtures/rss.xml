@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0"><channel>
+  <item><title>Valid post</title><link>https://blog.zhicheng233.top/post/valid</link><pubDate>Tue, 26 May 2026 00:00:00 GMT</pubDate></item>
+  <item><title>Unsafe post</title><link>javascript:alert(1)</link><pubDate>Tue, 26 May 2026 00:00:00 GMT</pubDate></item>
+  <item><title>Wrong host</title><link>https://example.com/post</link></item>
+</channel></rss>

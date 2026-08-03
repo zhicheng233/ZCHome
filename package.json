@@ -1,0 +1,31 @@
+{
+  "name": "zchome",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "check": "astro check",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@fontsource/press-start-2p": "^5.2.6",
+    "astro": "^7.1.6",
+    "cheerio": "^1.1.2",
+    "fast-xml-parser": "^5.2.5",
+    "lucide": "^0.536.0",
+    "motion": "^12.23.12"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@playwright/test": "^1.54.2",
+    "@types/node": "^26.0.0",
+    "cross-env": "^10.1.0",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
