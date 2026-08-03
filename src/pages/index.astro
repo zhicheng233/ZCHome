@@ -5,7 +5,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { loadGitHubData } from "../lib/github";
 import { translations } from "../lib/i18n";
 import { loadRssItems, RSS_URL } from "../lib/rss";
-import desktopScript from "../scripts/desktop.ts?url";
 
 const [github, rssItems] = await Promise.all([loadGitHubData(), loadRssItems()]);
 const initialStrings = translations["zh-CN"];
@@ -223,5 +222,7 @@ const serialize = (value: unknown) => JSON.stringify(value).replaceAll("<", "\\u
 
   <script is:inline id="zchome-translations" type="application/json" set:html={serialize(translations)}></script>
   <script is:inline id="zchome-rss" type="application/json" set:html={serialize({ url: RSS_URL, items: rssItems })}></script>
-  <script is:inline type="module" src={desktopScript}></script>
+  <script>
+    import "../scripts/desktop";
+  </script>
 </BaseLayout>
