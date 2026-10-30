@@ -97,6 +97,54 @@ function t(key: string): string {
   return translations[locale]?.[key] ?? translations["zh-CN"]?.[key] ?? key;
 }
 
+function effectiveTheme(): "light" | "dark" {
+  if (theme === "system") return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return theme;
+}
+
+function syncEmbedTheme(): void {
+  const frame = document.querySelector<HTMLIFrameElement>(".embed-frame");
+  if (!frame?.contentWindow) return;
+  frame.contentWindow.postMessage({ type: "zchome:theme", theme: effectiveTheme() }, "*");
+}
+
+const EMBED_DESIGN_WIDTH = 900;
+const EMBED_DESIGN_HEIGHT = 860;
+
+function fitEmbedFrame(body: HTMLElement): void {
+  const frame = body.querySelector<HTMLIFrameElement>(".embed-frame");
+  if (!frame) return;
+  if (window.matchMedia("(max-width: 700px)").matches) {
+    frame.style.width = "100%";
+    frame.style.height = "100%";
+    frame.style.transform = "none";
+    return;
+  }
+  const width = body.clientWidth;
+  const height = body.clientHeight;
+  if (!width || !height) return;
+  const scale = Math.min(width / EMBED_DESIGN_WIDTH, height / EMBED_DESIGN_HEIGHT);
+  const offsetX = (width - EMBED_DESIGN_WIDTH * scale) / 2;
+  const offsetY = (height - EMBED_DESIGN_HEIGHT * scale) / 2;
+  frame.style.width = `${EMBED_DESIGN_WIDTH}px`;
+  frame.style.height = `${EMBED_DESIGN_HEIGHT}px`;
+  frame.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+}
+
+function initializeEmbed(): void {
+  const body = document.querySelector<HTMLElement>(".embed-body");
+  const frame = document.querySelector<HTMLIFrameElement>(".embed-frame");
+  if (!body || !frame) return;
+  frame.addEventListener("load", () => {
+    syncEmbedTheme();
+    fitEmbedFrame(body);
+  });
+  const resizeObserver = new ResizeObserver(() => fitEmbedFrame(body));
+  resizeObserver.observe(body);
+  window.addEventListener("resize", () => fitEmbedFrame(body));
+  fitEmbedFrame(body);
+}
+
 function refreshIcons(_root: HTMLElement | Document = document): void {
   createIcons({ icons: iconSet, attrs: { "aria-hidden": "true" } });
 }
@@ -143,6 +191,7 @@ function applyTheme(nextTheme: ThemeMode, persist = true): void {
   if (persist) {
     try { localStorage.setItem("zchome.theme", theme); } catch {}
   }
+  syncEmbedTheme();
 }
 
 async function transitionTheme(nextTheme: ThemeMode, origin: HTMLElement): Promise<void> {
@@ -215,7 +264,10 @@ function openWindow(id: WindowId, updateHash = true): void {
   if (!target) return;
 
   target.querySelectorAll<HTMLIFrameElement>("[data-embed-src]").forEach((frame) => {
-    if (!frame.src && frame.dataset.embedSrc) frame.src = frame.dataset.embedSrc;
+    if (frame.src || !frame.dataset.embedSrc) return;
+    const url = new URL(frame.dataset.embedSrc);
+    url.searchParams.set("theme", effectiveTheme());
+    frame.src = url.href;
   });
 
   if (window.matchMedia("(max-width: 700px)").matches) {
@@ -468,4 +520,5 @@ applyLocale(locale, false);
 initializeWindows();
 initializeControls();
 initializeLighting();
+initializeEmbed();
 refreshFeed();
