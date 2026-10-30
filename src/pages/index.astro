@@ -10,7 +10,7 @@ const [github, rssItems] = await Promise.all([loadGitHubData(), loadRssItems()])
 const initialStrings = translations["zh-CN"];
 const formatCount = (value: number) => new Intl.NumberFormat("zh-CN", { notation: "compact" }).format(value);
 const formatDate = (value: string) => value ? new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "short", day: "numeric" }).format(new Date(value)) : "";
-const windowControls = ["about", "projects", "blog", "contact"] as const;
+const windowControls = ["about", "projects", "blog", "classlist", "contact"] as const;
 const serialize = (value: unknown) => JSON.stringify(value).replaceAll("<", "\\u003c");
 ---
 
@@ -172,6 +172,19 @@ const serialize = (value: unknown) => JSON.stringify(value).replaceAll("<", "\\u
         </div>
       </section>
 
+      <section class="desktop-window classlist-window" data-window="classlist" data-open="false" hidden aria-labelledby="title-classlist">
+        <header class="window-bar" data-drag-handle>
+          <div class="window-title"><i data-lucide="calendar-days" aria-hidden="true"></i><span id="title-classlist" data-i18n="window.classlist">{initialStrings["window.classlist"]}</span></div>
+          <div class="window-actions">
+            <button type="button" data-window-action="minimize" data-i18n-aria="window.minimize" aria-label={initialStrings["window.minimize"]}><i data-lucide="minus" aria-hidden="true"></i></button>
+            <button type="button" data-window-action="close" data-i18n-aria="window.close" aria-label={initialStrings["window.close"]}><i data-lucide="x" aria-hidden="true"></i></button>
+          </div>
+        </header>
+        <div class="window-body embed-body">
+          <iframe class="embed-frame" title="课表 · 计算机2521" data-embed-src="https://classlist.zhicheng233.top/" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </section>
+
       <section class="desktop-window contact-window" data-window="contact" data-open="false" hidden aria-labelledby="title-contact">
         <header class="window-bar" data-drag-handle>
           <div class="window-title"><i data-lucide="terminal" aria-hidden="true"></i><span id="title-contact" data-i18n="window.contact">{initialStrings["window.contact"]}</span></div>
@@ -205,7 +218,7 @@ const serialize = (value: unknown) => JSON.stringify(value).replaceAll("<", "\\u
       <div class="dock-apps">
         {windowControls.map((id) => (
           <button type="button" data-open-window={id} class={id === "about" ? "is-running is-current" : ""} aria-controls={`title-${id}`}>
-            <span class={`app-icon app-${id}`}><i data-lucide={id === "about" ? "user-round" : id === "projects" ? "blocks" : id === "blog" ? "rss" : "terminal"} aria-hidden="true"></i></span>
+            <span class={`app-icon app-${id}`}><i data-lucide={id === "about" ? "user-round" : id === "projects" ? "blocks" : id === "blog" ? "rss" : id === "classlist" ? "calendar-days" : "terminal"} aria-hidden="true"></i></span>
             <span data-i18n={`dock.${id}`}>{initialStrings[`dock.${id}`]}</span>
           </button>
         ))}

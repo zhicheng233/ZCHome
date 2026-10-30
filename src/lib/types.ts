@@ -1,6 +1,6 @@
 export type Locale = "zh-CN" | "en";
 export type ThemeMode = "system" | "light" | "dark";
-export type WindowId = "about" | "projects" | "blog" | "contact";
+export type WindowId = "about" | "projects" | "blog" | "contact" | "classlist";
 
 export interface PinnedRepository {
   name: string;

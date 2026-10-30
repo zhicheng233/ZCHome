@@ -6,6 +6,7 @@ import {
   Blocks,
   BookOpenText,
   Building2,
+  CalendarDays,
   CodeXml,
   Copy,
   GitFork,
@@ -39,6 +40,7 @@ const iconSet = {
   Blocks,
   BookOpenText,
   Building2,
+  CalendarDays,
   CodeXml,
   Copy,
   GitFork,
@@ -63,7 +65,7 @@ const iconSet = {
   X,
 };
 
-const windowIds: WindowId[] = ["about", "projects", "blog", "contact"];
+const windowIds: WindowId[] = ["about", "projects", "blog", "contact", "classlist"];
 const translationNode = document.querySelector<HTMLScriptElement>("#zchome-translations");
 const rssNode = document.querySelector<HTMLScriptElement>("#zchome-rss");
 const translations = JSON.parse(translationNode?.textContent || "{}") as Record<Locale, Record<string, string>>;
@@ -211,6 +213,10 @@ function syncDock(id: WindowId, running: boolean): void {
 function openWindow(id: WindowId, updateHash = true): void {
   const target = windowElement(id);
   if (!target) return;
+
+  target.querySelectorAll<HTMLIFrameElement>("[data-embed-src]").forEach((frame) => {
+    if (!frame.src && frame.dataset.embedSrc) frame.src = frame.dataset.embedSrc;
+  });
 
   if (window.matchMedia("(max-width: 700px)").matches) {
     windowIds.forEach((otherId) => {
